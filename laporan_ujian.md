@@ -22,7 +22,7 @@
 ### B. Kebutuhan Non-Fungsional
 *   **Antarmuka (UI)**: Desain modern dengan tema gelap/slate premium dan efek transparan (glassmorphism).
 *   **Responsivitas**: Aplikasi dapat diakses dengan nyaman melalui perangkat desktop maupun mobile (layout adaptif).
-*   **Persistensi**: Data tersimpan secara permanen dalam database lokal (SQLite).
+*   **Persistensi**: Data tersimpan secara permanen dalam database PostgreSQL (Supabase/Neon) di cloud untuk mendukung deployment serverless.
 
 ## 3. Referensi Desain, Survey, & Observasi
 *   **Studi Banding**: Mengambil inspirasi dari aplikasi finansial modern seperti *Jenius* dan *Bank Jago* untuk kemudahan navigasi.
@@ -35,8 +35,8 @@
 | Perencanaan dan Analisis | Minggu 1 | ✅ Selesai |
 | Desain Wireframe & UI | Minggu 2 | ✅ Selesai |
 | Pengembangan Backend & Database | Minggu 3 | ✅ Selesai |
-| Pengembangan Frontend & Integrasi API | Minggu 4-7 | 🔄 In Progress |
-| UI Refinement (Gradients & Animasi) | Minggu 8-12 | ⏳ Belum Mulai |
+| Pengembangan Frontend, Integrasi & Deployment | Minggu 4-7 | ✅ Selesai |
+| UI Refinement (Gradients & Animasi) | Minggu 8-12 | 🔄 In Progress |
 | Finalisasi & Dokumentasi | Minggu 13-16 | ⏳ Belum Mulai |
 
 ## 5. Wireframe (Low-Fidelity)
@@ -107,7 +107,7 @@ app.get('/api/transactions', (req, res) => {
 ```
 
 ## 8. Rancangan Database (Skema Relasi)
-Aplikasi menggunakan **SQLite**, sebuah database relasional berbasis file yang sangat efisien untuk aplikasi desktop/lokal. Rancangan databasenya didasarkan pada hubungan **One-to-Many** (Satu dompet dapat memiliki banyak transaksi).
+Aplikasi menggunakan **PostgreSQL** (Supabase), sebuah database relasional cloud yang sangat handal untuk deployment serverless. Rancangan databasenya didasarkan pada hubungan **One-to-Many** (Satu dompet dapat memiliki banyak transaksi).
 
 ### A. Deskripsi Tabel
 1.  **Tabel `wallets` (Master Data)**:
@@ -182,11 +182,11 @@ Berikut adalah poin-poin utama yang disesuaikan dengan 8 lingkup laporan untuk s
     *   Autentikasi aman dan *Auto-Wallet Provisioning* untuk pengguna baru.
 *   **Slide 12: Arsitektur & Teknologi**
     *   **Frontend**: React dengan Context API untuk *State Management*.
-    *   **Backend**: Express.js dengan logika Otomatisasi Saldo.
-    *   **Database**: SQLite dengan skema relasional (Users, Wallets, Transactions).
+    *   **Backend**: Vercel Serverless Functions.
+    *   **Database**: PostgreSQL (Supabase) dengan skema relasional (Users, Wallets, Transactions).
 *   **Slide 13: Progress Mingguan (Week 6)**
-    *   Database & Backend 100% fungsional.
-    *   Fokus saat ini pada integrasi Frontend & REST API.
+    *   Database Cloud & Backend Serverless 100% fungsional.
+    *   Fokus saat ini pada penyempurnaan UI Refinement dan Laporan.
 
 ---
 *Laporan ini disusun sebagai pemenuhan tugas proyek mata kuliah Rekayasa Web.*

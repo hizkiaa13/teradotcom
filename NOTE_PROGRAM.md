@@ -63,8 +63,8 @@ graph TD
     MainLayout --> Wallet[Wallet.jsx]
     
     subgraph Data_Flow
-        Dashboard -- "Fetch with userId" --> Backend[server/index.js]
-        Backend -- "Query Filtered by userId" --> DB[(database.sqlite)]
+        Dashboard -- "Fetch with userId" --> Backend[Vercel Serverless API /api]
+        Backend -- "Query Filtered by userId" --> DB[(PostgreSQL Supabase)]
     end
 ```
 
@@ -81,12 +81,13 @@ Aplikasi ini menggunakan arsitektur modern berbasis JavaScript dengan pemisahan 
 *   **React Router 7**: Mengatur navigasi antar halaman tanpa perlu memuat ulang browser (Single Page Application).
 
 ### B. Backend (Server)
-*   **Node.js & Express**: Lingkungan server yang menangani permintaan (request) dari frontend, seperti login, daftar, dan simpan transaksi.
+*   **Vercel Serverless Functions (`/api`)**: Fungsi tanpa server (serverless) yang menangani API requests (login, register, wallets, transactions) secara independen, sangat cepat, dan auto-scaling.
+*   **Node.js & Express (Lokal)**: Digunakan saat pengembangan lokal (`npm run dev`) dengan server Express yang memanfaatkan wrapper db dinamis.
 *   **RESTful API**: Protokol komunikasi standar untuk pertukaran data dalam format JSON.
-*   **Concurrently**: Memungkinkan server dan tampilan aplikasi berjalan secara bersamaan dalam satu perintah (`npm run dev`).
 
 ### C. Database (Penyimpanan Data)
-*   **SQLite3**: Database SQL yang efisien dan disimpan dalam satu file (`database.sqlite`). Sangat cocok untuk aplikasi tracker karena ringan namun mendukung relasi data yang kompleks (Foreign Keys).
+*   **PostgreSQL (Supabase/Neon)**: Database SQL relasional cloud yang menjadi database utama di production. Data aman tersimpan secara permanen secara online.
+*   **SQLite (Lokal)**: Digunakan secara otomatis jika tidak ada variabel lingkungan `DATABASE_URL` di lokal, memudahkan pengembangan offline.
 *   **Data Isolation Logic**: Setiap record data (Dompet & Transaksi) memiliki kolom `userId` untuk menjamin keamanan dan privasi data antar pengguna.
 
 ---
@@ -102,10 +103,12 @@ Aplikasi ini menggunakan arsitektur modern berbasis JavaScript dengan pemisahan 
 *   **`pages/Home.jsx`**: Dashboard utama. Menampilkan greeting personal **"Hai, [Nickname]"** dan ringkasan finansial privat.
 *   **`pages/Report.jsx`**: Laporan interaktif. Dilengkapi fitur **Toggle Pemasukan/Pengeluaran** untuk melihat rincian kategori yang berbeda.
 
-### Backend (`/server`)
+### Backend Server & Serverless (`/server` & `/api`)
 
-*   **`server/index.js`**: Server Express. Sekarang mendukung endpoint `/api/login`, `/api/register`, dan proteksi data berbasis `userId`.
-*   **`server/db.js`**: Database SQLite. Mengelola 3 tabel utama: `users`, `wallets`, dan `transactions` dengan relasi kunci tamu (Foreign Key).
+*   **`api/*` [NEW]**: Kumpulan file Vercel Serverless Functions (`login.js`, `register.js`, `wallets.js`, `transactions.js`, `wallets/[id].js`) yang mengeksekusi logika backend langsung di edge cloud Vercel menggunakan database PostgreSQL.
+*   **`server/index.js`**: Server Express lokal untuk dev environment yang mengarah ke SQLite lokal atau PostgreSQL.
+*   **`server/db.js`**: Database adapter dinamis. Mendeteksi secara cerdas: jika ada `DATABASE_URL` maka menggunakan PostgreSQL Pool, jika kosong menggunakan SQLite lokal.
+*   **`server/migrate.js` [NEW]**: Skrip migrasi data dari file `database.sqlite` lokal ke cloud PostgreSQL Supabase secara otomatis dan aman.
 
 ---
 

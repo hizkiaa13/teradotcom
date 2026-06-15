@@ -20,7 +20,7 @@
 ### B. Kebutuhan Non-Fungsional
 *   **Antarmuka (UI)**: Desain modern, intuitif, dan *mobile-friendly* dengan tema premium.
 *   **Responsivitas**: Aplikasi dapat digunakan dengan lancar di layar perangkat *mobile*.
-*   **Persistensi**: Data tersimpan dengan aman di dalam database lokal (SQLite/Room).
+*   **Persistensi**: Data tersimpan dengan aman di cloud database PostgreSQL (Supabase/Neon) untuk mendukung deployment serverless.
 
 ## 3. Referensi Desain, Survey, & Observasi
 *   **Studi Banding**: Mengambil inspirasi dari aplikasi finansial mobile modern seperti *Jenius* dan *Bank Jago* untuk kemudahan navigasi.
@@ -33,8 +33,8 @@
 | Perencanaan dan Analisis | Minggu 1 | ✅ Selesai |
 | Desain Wireframe & UI Mobile | Minggu 2 | ✅ Selesai |
 | Pengembangan Backend & Database | Minggu 3 | ✅ Selesai |
-| Pengembangan Frontend & Integrasi API | Minggu 4-7 | 🔄 In Progress |
-| UI Refinement (Mobile Layout & Animasi) | Minggu 8-12 | ⏳ Belum Mulai |
+| Pengembangan Frontend, Integrasi & Deployment | Minggu 4-7 | ✅ Selesai |
+| UI Refinement (Mobile Layout & Animasi) | Minggu 8-12 | 🔄 In Progress |
 | Pengujian Mobile & Finalisasi | Minggu 13-16 | ⏳ Belum Mulai |
 
 ## 5. Wireframe (Low-Fidelity)
@@ -70,7 +70,7 @@ const addTransaction = async (transaction) => {
 ```
 
 ## 8. Rancangan Database (Skema Relasi)
-Aplikasi menggunakan database relasional. Skema databasenya didasarkan pada hubungan **One-to-Many** (Satu pengguna bisa memiliki banyak dompet, satu dompet bisa memiliki banyak transaksi).
+Aplikasi menggunakan database relasional **PostgreSQL** (Supabase). Skema databasenya didasarkan pada hubungan **One-to-Many** (Satu pengguna bisa memiliki banyak dompet, satu dompet bisa memiliki banyak transaksi).
 
 ### Relasi Antar Tabel:
 1.  **Tabel `users` (Master User)**:
@@ -128,7 +128,7 @@ Berikut adalah poin-poin utama yang disesuaikan dengan 8 lingkup laporan untuk s
     *   Dukungan *Multi-Wallet* dan autentikasi *Multi-User*.
 *   **Slide 12: Desain & Teknologi**
     *   **UI/UX**: Bottom Navigation Bar, *Slate Navy Blue* Theme, desain *mobile-friendly*.
-    *   **Teknologi Utama**: React, Node.js/Express, SQLite (Local Database).
+    *   **Teknologi Utama**: React, Vercel Serverless Functions, PostgreSQL (Supabase).
 *   **Slide 13: Progress Terkini**
-    *   **Selesai**: Perencanaan, Desain UI, Database, dan Backend.
-    *   **Berjalan**: Integrasi API & Frontend (*State Management*).
+    *   **Selesai**: Perencanaan, Desain UI, Database Cloud, Backend Serverless, Integrasi Frontend, dan Deployment Vercel.
+    *   **Berjalan**: UI Refinement & Dokumentasi.
