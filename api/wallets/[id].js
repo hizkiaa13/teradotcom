@@ -1,6 +1,6 @@
-import pool from '../_db.js';
+const pool = require('../_db.js');
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -19,4 +19,4 @@ export default async function handler(req, res) {
   } finally {
     client.release();
   }
-}
+};

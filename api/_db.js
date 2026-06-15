@@ -1,6 +1,4 @@
-import pg from 'pg';
-
-const { Pool } = pg;
+const { Pool } = require('pg');
 
 // Gunakan satu pool instance yang di-reuse antar invocations
 const pool = new Pool({
@@ -9,4 +7,4 @@ const pool = new Pool({
   max: 3,
 });
 
-export default pool;
+module.exports = pool;
