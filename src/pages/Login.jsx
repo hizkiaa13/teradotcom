@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useFinance } from '../context/FinanceContext';
+import { useFinance, API_BASE } from '../context/FinanceContext';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://${window.location.hostname}:3001/api/login`, {
+      const response = await fetch(`${API_BASE}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -27,7 +27,7 @@ const Login = () => {
       }
     } catch (err) {
       console.error('Login error:', err);
-      setError(`Gagal menghubungi server (http://${window.location.hostname}:3001)`);
+      setError(`Gagal menghubungi server (${API_BASE || window.location.origin})`);
     }
   };
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { API_BASE } from '../context/FinanceContext';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const Register = () => {
     }
 
     try {
-      const response = await fetch(`http://${window.location.hostname}:3001/api/register`, {
+      const response = await fetch(`${API_BASE}/api/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -37,7 +38,7 @@ const Register = () => {
       }
     } catch (err) {
       console.error('Registration error:', err);
-      setError(`Gagal menghubungi server (http://${window.location.hostname}:3001)`);
+      setError(`Gagal menghubungi server (${API_BASE || window.location.origin})`);
     }
   };
 
