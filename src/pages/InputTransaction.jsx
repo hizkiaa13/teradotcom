@@ -56,14 +56,14 @@ const InputTransaction = () => {
 
   return (
     <div className="flex flex-col gap-6 max-w-2xl mx-auto w-full p-6 pb-20 md:pb-6">
-      <header className="flex items-center gap-4">
+      <header className="flex items-center gap-4 animate-fade-in-up" style={{ animationDelay: '0ms' }}>
         <button onClick={() => navigate(-1)} className="p-2 rounded-full hover:bg-slate-200 transition-colors bg-white shadow-sm">
           <ArrowLeft size={24} className="text-slate-700" />
         </button>
         <h1 className="text-3xl sm:text-4xl font-display uppercase tracking-widest text-slate-800">Tambah Transaksi</h1>
       </header>
 
-      <Card className="p-0 overflow-hidden border-none shadow-xl">
+      <Card className="p-0 overflow-hidden border-none shadow-xl animate-fade-in-up" style={{ animationDelay: '100ms' }}>
         <div className="flex p-2 bg-slate-100 rounded-t-3xl">
           <button
             className={`flex-1 py-4 text-center rounded-2xl font-bold transition-all ${type === 'expense' ? 'bg-white shadow-md text-danger scale-[1.02]' : 'text-slate-500 hover:text-slate-700'}`}
@@ -92,7 +92,7 @@ const InputTransaction = () => {
               <span className="text-[10px] font-medium text-slate-400">Maks: 1 Triliun</span>
             </div>
             <div className="relative flex items-center">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-2xl font-bold text-slate-400"></span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-2xl font-bold text-slate-400">Rp</span>
               <input
                 type="text"
                 placeholder="0"

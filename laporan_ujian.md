@@ -16,8 +16,9 @@
 *   Sistem mampu mengelola lebih dari satu sumber dana (Multi-Wallet).
 *   Sistem dapat mengelompokkan transaksi berdasarkan kategori (Makan, Transportasi, dll.).
 *   Sistem memiliki fitur reset data untuk pembersihan riwayat secara total.
-*   Sistem mendukung **Multi-User** dengan fitur pendaftaran (Register) dan masuk (Login) yang aman.
+*   Sistem mendukung **Multi-User** dengan fitur pendaftaran (Register) dan masuk (Login) yang aman, dilengkapi dengan visual loader interaktif.
 *   Sistem mampu memisahkan data (Isolasi Data) antar pengguna sehingga privasi terjaga.
+*   Sistem dapat mengekspor data transaksi keuangan terfilter ke file Excel (.xlsx) yang diunduh secara otomatis (auto-download).
 
 ### B. Kebutuhan Non-Fungsional
 *   **Antarmuka (UI)**: Desain modern dengan tema gelap/slate premium dan efek transparan (glassmorphism).
@@ -50,6 +51,8 @@
     *   **Sidebar**: Memiliki lekukan dinamis (*concave*) yang menyatu dengan latar belakang.
     *   **Chart**: Menggunakan `AreaChart` dengan gradien linear biru.
     *   **Card**: Efek bayangan lembut (*soft shadow*) dan sudut bulat (`rounded-2xl`).
+    *   **Glassmorphism Loading Overlay**: Tampilan pemuatan (*loading indicator*) transparan menggunakan filter blur (`backdrop-blur-md`) dengan aksen warna biru-slate yang lembut untuk memberikan pengalaman transisi premium saat masuk halaman.
+    *   **Form Ekspor Laporan**: Layout bersih untuk memilih rentang tanggal transaksi sebelum diekspor menjadi format Excel.
 
 ## 7. Hasil Coding (Core Snippets)
 Bagian ini menunjukkan implementasi logika utama yang menghubungkan antarmuka pengguna dengan penyimpanan data:
@@ -106,6 +109,73 @@ app.get('/api/transactions', (req, res) => {
 });
 ```
 
+### D. Transisi Glassmorphism Loading (Halaman Login)
+```javascript
+// State loading diatur menjadi true saat form disubmit, dengan delay 800ms demi kelembutan transisi
+const handleLogin = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
+  setError('');
+  try {
+    const response = await fetch(`${API_BASE}/api/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await response.json();
+    if (response.ok) {
+      login(data);
+      setTimeout(() => {
+        setIsLoading(false);
+        navigate('/dashboard');
+      }, 800); // Penundaan sengaja untuk kelancaran visual
+    } else {
+      setError(data.error || 'Login gagal');
+      setIsLoading(false);
+    }
+  } catch (err) {
+    setError('Gagal menghubungi server');
+    setIsLoading(false);
+  }
+};
+```
+
+### E. Ekspor dan Auto-Download Excel (exportExcel.js)
+```javascript
+// Menggunakan pustaka SheetJS (xlsx) untuk membuat file Excel dan memicu unduhan langsung
+import * as XLSX from 'xlsx';
+
+export const exportTransactionsToExcel = (transactions, wallets, dateRangeStr) => {
+  const walletMap = wallets.reduce((map, w) => {
+    map[w.id] = w.name;
+    return map;
+  }, {});
+
+  // Mengubah data JSON transaksi menjadi baris terstruktur Excel
+  const excelData = transactions.map((tx, index) => ({
+    'No': index + 1,
+    'Tanggal': tx.date,
+    'Tipe': tx.type === 'income' ? 'Pemasukan' : 'Pengeluaran',
+    'Kategori': tx.category,
+    'Dompet': walletMap[tx.walletId] || 'Tidak Diketahui',
+    'Jumlah (Rp)': tx.amount,
+    'Catatan': tx.note || '-'
+  }));
+
+  const worksheet = XLSX.utils.json_to_sheet(excelData);
+  worksheet['!cols'] = [
+    { wch: 5 }, { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 18 }, { wch: 30 }
+  ];
+
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Laporan Keuangan');
+
+  // Trigger unduh otomatis di browser
+  const filename = `Laporan_Keuangan_${dateRangeStr.replace(/\s+/g, '_')}.xlsx`;
+  XLSX.writeFile(workbook, filename);
+};
+```
+
 ## 8. Rancangan Database (Skema Relasi)
 Aplikasi menggunakan **PostgreSQL** (Supabase), sebuah database relasional cloud yang sangat handal untuk deployment serverless. Rancangan databasenya didasarkan pada hubungan **One-to-Many** (Satu dompet dapat memiliki banyak transaksi).
 
@@ -148,8 +218,8 @@ Berikut adalah poin-poin utama yang disesuaikan dengan 8 lingkup laporan untuk s
     *   Kurangnya visualisasi tren pengeluaran bulanan.
     *   Kesulitan mengelola berbagai sumber dana dan pengeluaran tak terkontrol.
 *   **Slide 2: Analisis Kebutuhan**
-    *   **Fungsional**: Dasbor visual 7 hari, isolasi data aman antar pengguna (*Multi-User*).
-    *   **Non-Fungsional**: Antarmuka adaptif berbasis *glassmorphism* & tema gelap.
+    *   **Fungsional**: Dasbor 7 hari, isolasi data aman (*Multi-User*), transisi loading, serta *auto-download* laporan Excel.
+    *   **Non-Fungsional**: Antarmuka adaptif berbasis *glassmorphism* & tema gelap dengan cloud database PostgreSQL.
 *   **Slide 3: Referensi Desain, Survey, & Observasi**
     *   Desain navigasi cepat terinspirasi dari aplikasi perbankan digital terkini.
     *   80% responden lebih memahami grafik dibandingkan angka dalam tabel.
@@ -161,14 +231,15 @@ Berikut adalah poin-poin utama yang disesuaikan dengan 8 lingkup laporan untuk s
     *   Alur interaksi yang singkat melalui modul input modal.
 *   **Slide 6: Desain Interface**
     *   Tema *Slate Navy Blue* dengan aksen warna vibran.
-    *   Penggunaan `AreaChart` dengan gradien biru linear.
+    *   Penggunaan `AreaChart` dengan gradien biru linear, Glassmorphism Loading Overlay saat masuk, dan Form Laporan Excel.
 *   **Slide 7: Hasil Coding**
-    *   Otomatisasi kalkulasi saldo (*Auto-Balance*) di level *Backend* (Express.js).
-    *   Manajemen *State* terpusat (React Context API) di *Frontend*.
+    *   Manajemen *State* terpusat (React Context API) & Otomatisasi Saldo (Express.js).
+    *   Efek tunggu (Loading Transition) di halaman login dengan penundaan visual 800ms.
+    *   Utilitas pengunduhan otomatis (auto-download) dokumen Excel `.xlsx` menggunakan SheetJS.
 *   **Slide 8: Rancangan Database**
-    *   Penggunaan SQLite dengan sistem Foreign Key yang ketat.
+    *   Penggunaan PostgreSQL/SQLite dengan sistem Foreign Key yang ketat.
     *   Filter `userId` di setiap *query* untuk menjamin keamanan dan privasi data.
-
+ 
 ### Tambahan (Ringkasan Profil Proyek)
 *   **Slide 9: Judul & Identitas**
     *   **Nama Aplikasi**: FinKu (Daily Financial Tracker)
@@ -179,14 +250,14 @@ Berikut adalah poin-poin utama yang disesuaikan dengan 8 lingkup laporan untuk s
 *   **Slide 11: Fitur Utama FinKu**
     *   Dasbor interaktif dengan grafik 7 hari terakhir.
     *   Manajemen *Multi-Wallet* dan Isolasi Data per Pengguna.
-    *   Autentikasi aman dan *Auto-Wallet Provisioning* untuk pengguna baru.
+    *   Autentikasi aman, *Auto-Wallet Provisioning*, dan ekspor laporan Excel otomatis (.xlsx).
 *   **Slide 12: Arsitektur & Teknologi**
-    *   **Frontend**: React dengan Context API untuk *State Management*.
+    *   **Frontend**: React dengan Context API untuk *State Management* dan SheetJS untuk ekspor.
     *   **Backend**: Vercel Serverless Functions.
     *   **Database**: PostgreSQL (Supabase) dengan skema relasional (Users, Wallets, Transactions).
 *   **Slide 13: Progress Mingguan (Week 6)**
-    *   Database Cloud & Backend Serverless 100% fungsional.
-    *   Fokus saat ini pada penyempurnaan UI Refinement dan Laporan.
-
+    *   Database Cloud, Backend Serverless, dan fungsionalitas Ekspor Excel Auto-Download serta Transisi Loading Login 100% Selesai.
+    *   Fokus saat ini pada penyempurnaan UI Refinement dan Laporan Akhir.
+ 
 ---
 *Laporan ini disusun sebagai pemenuhan tugas proyek mata kuliah Rekayasa Web.*

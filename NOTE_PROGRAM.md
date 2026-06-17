@@ -19,6 +19,7 @@ Berikut adalah fungsi-fungsi utama yang digunakan untuk mempercantik dan memform
 | `Cache Busting (_=ts)` | `FinanceContext.jsx` | Penambahan parameter timestamp pada URL API untuk mencegah browser menampilkan data lama (stale) saat ganti akun. |
 | `login()` & `logout()` | `FinanceContext.jsx` | Fungsi untuk mengelola sesi pengguna dan membersihkan data state secara instan saat keluar. |
 | `key={user?.id}` | `MainLayout.jsx` | Teknik React untuk memaksa komponen *re-mount* total saat ganti akun, memastikan tidak ada data akun lama yang tersisa di UI. |
+| `exportTransactionsToExcel()` | `exportExcel.js` | Fungsi ekspor data transaksi terfilter menjadi file Excel (.xlsx) dengan auto-download langsung. |
 
 ---
 
@@ -28,7 +29,7 @@ Aplikasi ini sekarang mendukung **Multi-User** dengan sistem keamanan database.
 
 ### A. Fitur Autentikasi
 1.  **Register**: Pengguna mendaftar dengan Nama Panggilan, Email, dan Kata Sandi. Secara otomatis mendapatkan 3 dompet default (BCA, Tunai, GoPay) yang bersifat privat.
-2.  **Login**: Verifikasi kredensial dan penyimpanan sesi aman di `localStorage` (`tera_user`).
+2.  **Login**: Verifikasi kredensial, penyimpanan sesi aman di `localStorage` (`tera_user`), serta penyajian **Glassmorphism Loading Overlay** dengan backdrop blur dan delay transisi 800ms untuk kelancaran transisi visual.
 3.  **Data Isolation**: Setiap data transaksi dan dompet dikunci menggunakan `userId`. Pengguna A tidak bisa melihat atau meriset data Pengguna B.
 
 ### B. Palet Warna (Theme Colors)
@@ -79,6 +80,7 @@ Aplikasi ini menggunakan arsitektur modern berbasis JavaScript dengan pemisahan 
 *   **Recharts**: Library khusus untuk menampilkan grafik statistik keuangan di halaman Dashboard.
 *   **Lucide React**: Koleksi ikon minimalis dan premium yang digunakan di seluruh navigasi dan kategori.
 *   **React Router 7**: Mengatur navigasi antar halaman tanpa perlu memuat ulang browser (Single Page Application).
+*   **SheetJS (xlsx)**: Pustaka khusus di client-side untuk memproses JSON menjadi spreadsheet Excel dan mengaktifkan auto-download.
 
 ### B. Backend (Server)
 *   **Vercel Serverless Functions (`/api`)**: Fungsi tanpa server (serverless) yang menangani API requests (login, register, wallets, transactions) secara independen, sangat cepat, dan auto-scaling.
@@ -96,12 +98,13 @@ Aplikasi ini menggunakan arsitektur modern berbasis JavaScript dengan pemisahan 
 
 ### Frontend (`/src`)
 
-*   **`pages/Login.jsx` [NEW]**: Halaman masuk utama dengan integrasi API dan penanganan error koneksi server.
+*   **`pages/Login.jsx` [NEW]**: Halaman masuk utama dengan integrasi API, penanganan error koneksi server, dan efek visual Glassmorphism Loading Transition.
 *   **`pages/Register.jsx` [NEW]**: Halaman pendaftaran akun baru dengan fitur pembuatan dompet default otomatis untuk tiap user baru.
 *   **`context/FinanceContext.jsx`**: "Otak" aplikasi. Sekarang mengelola `user` state, sinkronisasi sesi, dan isolasi data antar user.
 *   **`layouts/MainLayout.jsx`**: Template utama. Sekarang menggunakan `key={user?.id}` untuk menjamin kebersihan data saat ganti akun.
 *   **`pages/Home.jsx`**: Dashboard utama. Menampilkan greeting personal **"Hai, [Nickname]"** dan ringkasan finansial privat.
-*   **`pages/Report.jsx`**: Laporan interaktif. Dilengkapi fitur **Toggle Pemasukan/Pengeluaran** untuk melihat rincian kategori yang berbeda.
+*   **`pages/Report.jsx`**: Laporan interaktif. Dilengkapi fitur **Toggle Pemasukan/Pengeluaran** untuk melihat rincian kategori yang berbeda, serta trigger ekspor Excel.
+*   **`utils/exportExcel.js` [NEW]**: Utilitas pemetaan transaksi harian menjadi baris spreadsheet Excel (.xlsx) dengan kolom lebar terformat dan auto-download otomatis.
 
 ### Backend Server & Serverless (`/server` & `/api`)
 
@@ -134,6 +137,8 @@ Berikut adalah status terakhir perkembangan fitur aplikasi FinKu:
 | **Toggle Laporan** | ✅ Selesai | Halaman laporan bisa berganti antara grafik Pemasukan dan Pengeluaran dengan satu klik. |
 | **Auto-Wallet Creation** | ✅ Selesai | User baru otomatis mendapatkan 3 dompet default (BCA, Tunai, GoPay) saat pendaftaran. |
 | **Cross-Device API** | ✅ Selesai | Menggunakan `window.location.hostname` agar server bisa diakses dari HP atau Laptop lain di jaringan yang sama. |
+| **Glassmorphism Loading** | ✅ Selesai | Efek tunggu blur transparan saat autentikasi masuk ke akun. |
+| **Excel Auto-Download** | ✅ Selesai | Ekspor data laporan transaksi keuangan terfilter menjadi file Excel (.xlsx) secara instan. |
 
 ---
 

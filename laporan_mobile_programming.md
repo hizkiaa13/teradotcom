@@ -14,8 +14,9 @@
 *   Sistem menyediakan dasbor visual (grafik) untuk melihat tren pengeluaran.
 *   Sistem mampu mengelola lebih dari satu sumber dana (Multi-Wallet).
 *   Sistem dapat mengelompokkan transaksi berdasarkan kategori.
-*   Sistem mendukung autentikasi Multi-User (Register & Login).
+*   Sistem mendukung autentikasi Multi-User (Register & Login) dilengkapi dengan visual loader interaktif.
 *   Sistem mampu memisahkan data (Isolasi Data) antar pengguna.
+*   Sistem dapat mengekspor data transaksi keuangan terfilter ke file Excel (.xlsx) yang diunduh secara otomatis (auto-download).
 
 ### B. Kebutuhan Non-Fungsional
 *   **Antarmuka (UI)**: Desain modern, intuitif, dan *mobile-friendly* dengan tema premium.
@@ -48,11 +49,13 @@
     *   **Bottom Navigation**: Terdapat lekukan dinamis (*concave*) di tengah untuk memberikan ruang bagi tombol tambah transaksi (*Floating Action Button*).
     *   **Chart**: Menggunakan *AreaChart* responsif yang ukurannya disesuaikan dengan proporsi layar *mobile*.
     *   **Card**: Efek bayangan lembut (*soft shadow*) dan sudut bulat (`rounded-2xl`).
+    *   **Glassmorphism Loading Overlay**: Tampilan pemuatan (*loading indicator*) transparan menggunakan filter blur (`backdrop-blur-md`) dengan aksen warna biru-slate yang lembut untuk memberikan pengalaman transisi premium saat masuk halaman.
+    *   **Form Ekspor Laporan**: Layout bersih untuk memilih rentang tanggal transaksi sebelum diekspor menjadi format Excel.
 
 ## 7. Hasil Coding (Core Snippets)
-Berikut adalah demonstrasi potongan kode inti terkait integrasi API dan *state management* pada antarmuka aplikasi *mobile*:
+Berikut adalah demonstrasi potongan kode inti terkait integrasi API, *state management*, transisi loading, dan ekspor data otomatis:
 
-### Integrasi API & State Management
+### A. Integrasi API & State Management
 ```javascript
 // Fungsi mengirim data transaksi ke server/API
 const addTransaction = async (transaction) => {
@@ -66,6 +69,73 @@ const addTransaction = async (transaction) => {
   
   // State diperbarui secara real-time pada UI Mobile tanpa reload
   setTransactions(prev => [data.transaction, ...prev]);
+};
+```
+
+### B. Transisi Glassmorphism Loading (Halaman Login)
+```javascript
+// State loading diatur menjadi true saat form disubmit, dengan delay 800ms demi kelembutan transisi
+const handleLogin = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
+  setError('');
+  try {
+    const response = await fetch(`${API_BASE}/api/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await response.json();
+    if (response.ok) {
+      login(data);
+      setTimeout(() => {
+        setIsLoading(false);
+        navigate('/dashboard');
+      }, 800); // Penundaan sengaja untuk kelancaran visual
+    } else {
+      setError(data.error || 'Login gagal');
+      setIsLoading(false);
+    }
+  } catch (err) {
+    setError('Gagal menghubungi server');
+    setIsLoading(false);
+  }
+};
+```
+
+### C. Ekspor dan Auto-Download Excel (exportExcel.js)
+```javascript
+// Menggunakan pustaka SheetJS (xlsx) untuk membuat file Excel dan memicu unduhan langsung
+import * as XLSX from 'xlsx';
+
+export const exportTransactionsToExcel = (transactions, wallets, dateRangeStr) => {
+  const walletMap = wallets.reduce((map, w) => {
+    map[w.id] = w.name;
+    return map;
+  }, {});
+
+  // Mengubah data JSON transaksi menjadi baris terstruktur Excel
+  const excelData = transactions.map((tx, index) => ({
+    'No': index + 1,
+    'Tanggal': tx.date,
+    'Tipe': tx.type === 'income' ? 'Pemasukan' : 'Pengeluaran',
+    'Kategori': tx.category,
+    'Dompet': walletMap[tx.walletId] || 'Tidak Diketahui',
+    'Jumlah (Rp)': tx.amount,
+    'Catatan': tx.note || '-'
+  }));
+
+  const worksheet = XLSX.utils.json_to_sheet(excelData);
+  worksheet['!cols'] = [
+    { wch: 5 }, { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 18 }, { wch: 30 }
+  ];
+
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Laporan Keuangan');
+
+  // Trigger unduh otomatis di browser
+  const filename = `Laporan_Keuangan_${dateRangeStr.replace(/\s+/g, '_')}.xlsx`;
+  XLSX.writeFile(workbook, filename);
 };
 ```
 
@@ -94,8 +164,8 @@ Berikut adalah poin-poin utama yang disesuaikan dengan 8 lingkup laporan untuk s
     *   Pencatatan manual sering terlupakan dan sulit melacak pengeluaran secara detail.
     *   Pengelolaan multi-wallet (tunai, bank, e-wallet) yang tidak terpusat.
 *   **Slide 2: Analisis Kebutuhan**
-    *   **Fungsional**: Pencatatan *real-time*, grafik tren, fitur *Multi-Wallet* dan *Multi-User*.
-    *   **Non-Fungsional**: UI *mobile-friendly* dengan persistensi data SQLite.
+    *   **Fungsional**: Pencatatan *real-time*, grafik tren, *Multi-Wallet*, *Multi-User* dengan loading transition, serta *auto-download* laporan Excel.
+    *   **Non-Fungsional**: UI *mobile-friendly* dengan persistensi data PostgreSQL di Supabase.
 *   **Slide 3: Referensi Desain, Survey, & Observasi**
     *   Konsep "One-Click Input" terinspirasi dari aplikasi finansial modern.
     *   Kebutuhan tinggi terhadap visualisasi grafik di layar *smartphone*.
@@ -108,13 +178,15 @@ Berikut adalah poin-poin utama yang disesuaikan dengan 8 lingkup laporan untuk s
 *   **Slide 6: Desain Interface**
     *   Tema *Slate Navy Blue* yang premium dengan lekukan dinamis (*concave*) pada navigasi.
     *   Kartu bersudut bulat (`rounded-2xl`) dan grafik area responsif.
+    *   Glassmorphism Loading Overlay saat autentikasi & Form Ekspor Laporan Excel.
 *   **Slide 7: Hasil Coding**
-    *   Implementasi integrasi API *real-time* ke backend menggunakan Fetch.
-    *   Pembaruan UI (State Management) secara instan tanpa perlu reload.
+    *   Integrasi API transaksi *real-time* ke cloud database.
+    *   Efek tunggu (Loading Transition) di halaman login dengan penundaan visual 800ms.
+    *   Utilitas pengunduhan otomatis (auto-download) dokumen Excel `.xlsx` menggunakan SheetJS.
 *   **Slide 8: Rancangan Database**
     *   Skema relasional **One-to-Many**.
     *   Tabel terpusat: `users` (Master), `wallets` (Master), dan `transactions` (Data).
-
+ 
 ### Tambahan (Ringkasan Profil Proyek)
 *   **Slide 9: Judul & Identitas**
     *   **Nama Aplikasi**: FinKu (Daily Financial Tracker)
@@ -126,9 +198,10 @@ Berikut adalah poin-poin utama yang disesuaikan dengan 8 lingkup laporan untuk s
     *   Pencatatan *real-time* ("One-Click Input").
     *   Visualisasi tren menggunakan grafik responsif.
     *   Dukungan *Multi-Wallet* dan autentikasi *Multi-User*.
+    *   Ekspor data & auto-download laporan keuangan format Excel (.xlsx).
 *   **Slide 12: Desain & Teknologi**
     *   **UI/UX**: Bottom Navigation Bar, *Slate Navy Blue* Theme, desain *mobile-friendly*.
-    *   **Teknologi Utama**: React, Vercel Serverless Functions, PostgreSQL (Supabase).
+    *   **Teknologi Utama**: React, Vercel Serverless Functions, PostgreSQL (Supabase), SheetJS (XLSX).
 *   **Slide 13: Progress Terkini**
-    *   **Selesai**: Perencanaan, Desain UI, Database Cloud, Backend Serverless, Integrasi Frontend, dan Deployment Vercel.
-    *   **Berjalan**: UI Refinement & Dokumentasi.
+    *   **Selesai**: Perencanaan, Desain UI, Database Cloud, Backend Serverless, Integrasi Frontend, Fitur Pemuatan Login, Ekspor Excel Auto-Download, dan Deployment Vercel.
+    *   **Berjalan**: UI Refinement & Dokumentasi Akhir.

@@ -92,7 +92,7 @@ const AddWalletModal = ({ isOpen, onClose }) => {
             <span className="text-[10px] font-medium text-slate-400">Maks: 1 Triliun</span>
           </div>
           <div className="relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-medium"></span>
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-medium">Rp</span>
             <input
               type="text"
               value={formatNumber(balance)}

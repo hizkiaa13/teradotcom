@@ -16,12 +16,12 @@ const Wallet = () => {
 
   return (
     <div className="flex flex-col gap-6 w-full max-w-[1200px] mx-auto p-6 pb-20 md:pb-6">
-      <header>
+      <header className="animate-fade-in-up" style={{ animationDelay: '0ms' }}>
         <h1 className="text-3xl sm:text-4xl font-display uppercase tracking-widest text-slate-800">Dompet Saya</h1>
         <p className="text-sm text-textMuted">Kelola semua sumber danamu</p>
       </header>
 
-      <Card style={{ backgroundColor: '#0f172a', color: 'white' }}>
+      <Card style={{ backgroundColor: '#0f172a', color: 'white', animationDelay: '100ms' }} className="animate-fade-in-up">
         <div className="text-sm text-textMuted mb-2 text-white/80">Total Saldo Keseluruhan</div>
         <div className="text-2xl font-bold mb-4">Rp {totalBalance.toLocaleString('id-ID')}</div>
         <button
@@ -34,7 +34,7 @@ const Wallet = () => {
         </button>
       </Card>
 
-      <section className="flex flex-col gap-4">
+      <section className="flex flex-col gap-4 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
         <h2 className="text-h2">Daftar Dompet</h2>
         {wallets.map((wallet) => (
           <Card key={wallet.id} className="flex items-center justify-between p-4 cursor-pointer hover:shadow-md transition-shadow">
@@ -67,7 +67,7 @@ const Wallet = () => {
         ))}
       </section>
 
-      <section className="flex flex-col gap-4 mt-8 pt-8 border-t border-slate-200">
+      <section className="flex flex-col gap-4 mt-8 pt-8 border-t border-slate-200 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
         <div className="flex flex-col">
           <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Zona Bahaya</h2>
           <p className="text-xs text-slate-400 mb-4">Hapus semua data jika ingin memulai dari awal.</p>

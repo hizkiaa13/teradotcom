@@ -79,48 +79,48 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             
             {/* Halo, Budi Card */}
-            <Card className="flex flex-col justify-center p-8 shadow-sm border-none rounded-2xl h-full bg-white">
-              <h2 className="text-4xl font-semibold mb-6">Hai, {user?.nickname || 'Pengguna'}</h2>
+            <Card className="flex flex-col justify-center p-6 md:p-8 shadow-sm border-none rounded-2xl h-full bg-gradient-to-br from-slate-900 to-slate-800 text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl animate-fade-in-up" style={{ animationDelay: '0ms' }}>
+              <h2 className="text-3xl md:text-4xl font-semibold mb-4 md:mb-6">Hai, {user?.nickname || 'Pengguna'}</h2>
               <div className="flex flex-col gap-2 mt-auto">
-                <span className="text-slate-400 font-medium">Total Saldo</span>
-                <div className="flex items-center gap-3">
-                  <Wallet size={28} className="text-slate-900" />
-                  <span className="text-3xl font-semibold">Rp.{totalBalance.toLocaleString('id-ID')}</span>
+                <span className="text-slate-400 font-medium text-sm md:text-base">Total Saldo</span>
+                <div className="flex items-center gap-2 md:gap-3">
+                  <Wallet className="text-white/90 w-6 h-6 md:w-7 md:h-7" />
+                  <span className="text-2xl md:text-3xl font-semibold">Rp.{totalBalance.toLocaleString('id-ID')}</span>
                 </div>
               </div>
             </Card>
 
             {/* Income & Expense Stack */}
-            <div className="flex flex-col gap-6">
-              <Card className="flex flex-col justify-center p-6 shadow-sm border-none rounded-2xl flex-1 bg-white">
-                <div className="flex items-center gap-2 mb-3">
+            <div className="grid grid-cols-2 md:flex md:flex-col gap-4 md:gap-6">
+              <Card className="flex flex-col justify-center p-4 md:p-6 shadow-sm border-none rounded-2xl flex-1 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl animate-fade-in-up" style={{ animationDelay: '100ms' }}>
+                <div className="flex items-center gap-2 mb-2 md:mb-3">
                   <div className="p-1 rounded-full bg-success-light text-success">
-                    <ArrowUpRight size={18} />
+                    <ArrowUpRight size={16} className="md:w-[18px] md:h-[18px]" />
                   </div>
-                  <span className="text-slate-400 font-medium">Pemasukan</span>
+                  <span className="text-slate-400 font-medium text-xs md:text-sm">Pemasukan</span>
                 </div>
-                <div className="text-2xl font-semibold text-success">Rp.{incomeThisMonth.toLocaleString('id-ID')}</div>
+                <div className="text-lg md:text-2xl font-semibold text-success truncate">Rp.{incomeThisMonth.toLocaleString('id-ID')}</div>
               </Card>
 
-              <Card className="flex flex-col justify-center p-6 shadow-sm border-none rounded-2xl flex-1 bg-white">
-                <div className="flex items-center gap-2 mb-3">
+              <Card className="flex flex-col justify-center p-4 md:p-6 shadow-sm border-none rounded-2xl flex-1 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+                <div className="flex items-center gap-2 mb-2 md:mb-3">
                   <div className="p-1 rounded-full bg-danger/10 text-danger">
-                    <ArrowDownRight size={18} />
+                    <ArrowDownRight size={16} className="md:w-[18px] md:h-[18px]" />
                   </div>
-                  <span className="text-slate-400 font-medium">Pengeluaran</span>
+                  <span className="text-slate-400 font-medium text-xs md:text-sm">Pengeluaran</span>
                 </div>
-                <div className="text-2xl font-semibold text-danger">Rp.{expenseThisMonth.toLocaleString('id-ID')}</div>
+                <div className="text-lg md:text-2xl font-semibold text-danger truncate">Rp.{expenseThisMonth.toLocaleString('id-ID')}</div>
               </Card>
             </div>
             
           </div>
 
           {/* Chart Section */}
-          <Card className="p-6 shadow-sm border-none rounded-2xl bg-white overflow-hidden">
+          <Card className="p-6 shadow-sm border-none rounded-2xl bg-white overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl animate-fade-in-up" style={{ animationDelay: '300ms' }}>
             <h3 className="text-lg font-medium text-slate-800 mb-6">Pengeluaran 7 Hari Terakhir</h3>
             <div className="h-[280px] w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 20 }}>
                   <defs>
                     <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
@@ -166,7 +166,7 @@ const Home = () => {
 
         {/* Right Column (Recent Transactions) */}
         <div className="lg:col-span-1">
-          <Card className="p-6 shadow-sm border-none rounded-2xl bg-white h-full min-h-[400px]">
+          <Card className="p-6 shadow-sm border-none rounded-2xl bg-white h-full min-h-[400px] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl animate-fade-in-up" style={{ animationDelay: '400ms' }}>
             <h3 className="text-lg font-medium text-slate-800 mb-6">Transaksi Terbaru</h3>
             {recentTransactions.length > 0 ? (
               <TransactionList transactions={recentTransactions} />

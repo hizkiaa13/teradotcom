@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, PlusCircle, PieChart, Wallet, LogOut } from 'lucide-react';
+import { useFinance } from '../context/FinanceContext';
 
 const navItems = [
   { path: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard size={32} /> },
@@ -11,6 +12,8 @@ const navItems = [
 
 const Sidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { logout } = useFinance();
   const navRef = useRef(null);
   
   const [sliderStyle, setSliderStyle] = useState({ top: 0, height: 0, opacity: 0 });
@@ -35,6 +38,11 @@ const Sidebar = () => {
       setSliderStyle(prev => ({ ...prev, opacity: 0 }));
     }
   }, [location.pathname, hoveredPath]);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
     <aside className="hidden md:flex fixed top-0 left-0 bottom-0 w-[250px] bg-[#12161F] flex-col z-40 border-r-0">
@@ -82,10 +90,10 @@ const Sidebar = () => {
       </nav>
 
       <div className="py-6 px-4 border-t border-slate-800">
-        <NavLink to="/login" className="flex items-center gap-4 py-3 px-4 rounded-md font-medium !text-white font-semibold hover:bg-slate-800 transition-colors">
+        <button onClick={handleLogout} className="flex items-center gap-4 py-3 px-4 rounded-md font-medium !text-white font-semibold hover:bg-slate-800 transition-colors w-full">
           <LogOut size={20} />
           <span>Keluar</span>
-        </NavLink>
+        </button>
       </div>
     </aside>
   );

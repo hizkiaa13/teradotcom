@@ -85,7 +85,7 @@ const Report = () => {
 
   return (
     <div className="flex flex-col gap-6 w-full max-w-[1200px] mx-auto p-6 pb-20 md:pb-6">
-      <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 animate-fade-in-up" style={{ animationDelay: '0ms' }}>
         <h1 className="text-3xl sm:text-4xl font-display uppercase tracking-widest text-slate-800">Laporan</h1>
         <div className="relative group">
           <select 
@@ -110,7 +110,7 @@ const Report = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Pie Chart Card */}
         <div className="lg:col-span-7 h-full">
-          <Card className="h-full">
+          <Card className="h-full animate-fade-in-up" style={{ animationDelay: '100ms' }}>
             <div className="flex justify-center gap-4 mb-6 p-1 bg-slate-100 rounded-2xl w-fit mx-auto">
               <button 
                 onClick={() => setChartType('expense')}
@@ -164,7 +164,7 @@ const Report = () => {
 
         {/* Excel Export Card */}
         <div className="lg:col-span-5 h-full">
-          <Card className="h-full">
+          <Card className="h-full animate-fade-in-up" style={{ animationDelay: '200ms' }}>
             <div className="flex items-center gap-2 mb-6 text-slate-800">
               <div className="p-2 bg-success/10 text-success rounded-xl">
                 <FileSpreadsheet size={24} />
@@ -221,7 +221,7 @@ const Report = () => {
         </div>
       </div>
 
-      <section className="mt-4">
+      <section className="mt-4 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
         <h2 className="text-xl font-semibold mb-4">Rincian Transaksi</h2>
         <Card>
           <TransactionList transactions={filteredTransactions} />
