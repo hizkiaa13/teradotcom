@@ -16,26 +16,42 @@ const MainLayout = () => {
           <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0">
             <svg
               className="absolute inset-0 w-full h-full text-white"
-              opacity="0.12"
+              opacity="0.1"
             >
               <defs>
                 <pattern
-                  id="megamendung"
-                  width="200"
-                  height="100"
+                  id="wiggly-pattern"
+                  width="300"
+                  height="300"
                   patternUnits="userSpaceOnUse"
                 >
-                  <g fill="none" stroke="currentColor" strokeWidth="1.2">
-                    {/* Layer 1 (Outer Cloud) */}
-                    <path d="M 20,50 C 20,30 40,20 70,20 C 90,20 105,35 120,48 C 135,35 150,20 170,20 C 190,20 200,30 200,50 C 200,70 190,80 170,80 C 150,80 135,65 120,52 C 105,65 90,80 70,80 C 40,80 20,70 20,50 Z" />
-                    {/* Layer 2 (Middle Cloud) */}
-                    <path d="M 40,50 C 40,38 52,32 70,32 C 82,32 95,42 120,50 C 145,42 158,32 170,32 C 188,32 180,38 180,50 C 180,62 188,68 170,68 C 158,68 145,58 120,50 C 95,58 82,68 70,68 C 52,68 40,62 40,50 Z" />
-                    {/* Layer 3 (Inner Core) */}
-                    <path d="M 60,50 C 60,45 65,42 70,42 C 80,42 95,47 120,50 C 145,47 160,42 170,42 C 175,42 180,45 180,50 C 180,55 175,58 170,58 C 160,58 145,53 120,50 C 95,53 80,58 70,58 C 65,58 60,55 60,50 Z" />
+                  <g fill="none" stroke="currentColor" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round">
+                    {/* Wiggly Path 1 (Top Left) */}
+                    <path d="M 30,30 C 50,10 90,20 80,60 C 70,100 30,120 40,160 C 50,180 80,180 100,160" />
+                    
+                    {/* Wiggly Path 2 (Top Right) */}
+                    <path d="M 180,30 C 220,10 250,40 230,80 C 210,120 270,140 280,180" />
+                    
+                    {/* Wiggly Path 3 (Center Bottom) */}
+                    <path d="M 120,220 C 150,200 180,240 160,280 C 140,310 90,280 80,250" />
+                    
+                    {/* Wiggly Path 4 (Bottom Right) */}
+                    <path d="M 220,280 C 260,300 290,270 270,230 C 250,190 220,200 210,170" />
+                    
+                    {/* Small segments & dots to balance the layout */}
+                    <path d="M 130,20 C 150,40 140,70 160,90" />
+                    <path d="M 20,250 C 40,280 70,270 70,240" />
+
+                    {/* Dots (Filled Circles) */}
+                    <circle cx="110" cy="110" r="10" fill="currentColor" stroke="none" />
+                    <circle cx="180" cy="150" r="10" fill="currentColor" stroke="none" />
+                    <circle cx="60" cy="200" r="10" fill="currentColor" stroke="none" />
+                    <circle cx="230" cy="220" r="10" fill="currentColor" stroke="none" />
+                    <circle cx="280" cy="110" r="10" fill="currentColor" stroke="none" />
                   </g>
                 </pattern>
               </defs>
-              <rect width="100%" height="100%" fill="url(#megamendung)" />
+              <rect width="100%" height="100%" fill="url(#wiggly-pattern)" />
             </svg>
           </div>
 
