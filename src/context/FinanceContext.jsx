@@ -131,7 +131,6 @@ export const FinanceProvider = ({ children }) => {
 
   const resetData = async () => {
     if (!user) return;
-    if (!window.confirm("Apakah Anda yakin ingin menghapus SEMUA transaksi dan meriset saldo? Tindakan ini tidak dapat dibatalkan.")) return;
     
     try {
       const res = await fetch(`${API_BASE}/api/transactions?userId=${user.id}`, { method: 'DELETE' });
