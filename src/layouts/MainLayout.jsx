@@ -15,13 +15,13 @@ const MainLayout = () => {
           {/* Background Topographic Waves B (Full Page) */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0">
             <svg
-              className="absolute inset-0 w-full h-full text-slate-800"
+              className="absolute inset-0 w-full h-full text-white"
               viewBox="0 0 1000 1000"
               preserveAspectRatio="xMidYMid slice"
               fill="none"
               stroke="currentColor"
-              strokeWidth="0.8"
-              opacity="0.05"
+              strokeWidth="1.5"
+              opacity="0.12"
             >
               {/* Ripple Set 1 (Top Right) */}
               <circle cx="900" cy="100" r="150" />
