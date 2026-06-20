@@ -75,10 +75,6 @@ const Wallet = () => {
       </section>
 
       <section className="flex flex-col gap-4 mt-8 pt-8 border-t border-slate-200 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
-        <div className="flex flex-col">
-          <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Zona Bahaya</h2>
-          <p className="text-xs text-slate-400 mb-4">Hapus semua data jika ingin memulai dari awal.</p>
-        </div>
         <button
           onClick={() => setIsResetConfirmOpen(true)}
           className="flex items-center justify-center gap-2 py-4 px-6 rounded-2xl font-bold transition-all 
