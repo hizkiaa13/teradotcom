@@ -55,7 +55,7 @@ const InputTransaction = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6 max-w-2xl mx-auto w-full p-6 pb-20 md:pb-6">
+    <div className="flex flex-col gap-6 max-w-2xl mx-auto w-full p-6 pb-36 md:pb-6">
       <header className="flex items-center gap-4 animate-fade-in-up" style={{ animationDelay: '0ms' }}>
         <button onClick={() => navigate(-1)} className="p-2 rounded-full hover:bg-slate-200 transition-colors bg-white shadow-sm">
           <ArrowLeft size={24} className="text-slate-700" />

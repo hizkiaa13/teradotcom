@@ -57,7 +57,7 @@ const Home = () => {
   });
 
   return (
-    <div className="p-6 md:p-8 flex-1 flex flex-col gap-6 text-slate-800">
+    <div className="p-6 pb-36 md:p-8 flex-1 flex flex-col gap-6 text-slate-800">
       <header className="flex justify-between items-end mt-2 md:mt-4">
         <div>
           <div className="flex items-center gap-2 text-slate-700 mb-2 font-medium">

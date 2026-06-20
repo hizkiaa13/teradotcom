@@ -22,7 +22,7 @@ const Wallet = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6 w-full max-w-[1200px] mx-auto p-6 pb-20 md:pb-6">
+    <div className="flex flex-col gap-6 w-full max-w-[1200px] mx-auto p-6 pb-36 md:pb-6">
       <header className="animate-fade-in-up" style={{ animationDelay: '0ms' }}>
         <h1 className="text-3xl sm:text-4xl font-display uppercase tracking-widest text-slate-800">Dompet Saya</h1>
         <p className="text-sm text-textMuted">Kelola semua sumber danamu</p>
