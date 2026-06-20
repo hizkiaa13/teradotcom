@@ -16,36 +16,26 @@ const MainLayout = () => {
           <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0">
             <svg
               className="absolute inset-0 w-full h-full text-white"
-              viewBox="0 0 1000 1000"
-              preserveAspectRatio="xMidYMid slice"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
               opacity="0.12"
             >
-              {/* Ripple Set 1 (Top Right) */}
-              <circle cx="900" cy="100" r="150" />
-              <circle cx="900" cy="100" r="250" />
-              <circle cx="900" cy="100" r="350" />
-              <circle cx="900" cy="100" r="450" />
-              <circle cx="900" cy="100" r="550" />
-              <circle cx="900" cy="100" r="650" />
-              <circle cx="900" cy="100" r="750" />
-              <circle cx="900" cy="100" r="850" />
-              <circle cx="900" cy="100" r="950" />
-              <circle cx="900" cy="100" r="1050" />
-              <circle cx="900" cy="100" r="1150" />
-
-              {/* Ripple Set 2 (Bottom Left) */}
-              <circle cx="100" cy="900" r="100" />
-              <circle cx="100" cy="900" r="200" />
-              <circle cx="100" cy="900" r="300" />
-              <circle cx="100" cy="900" r="400" />
-              <circle cx="100" cy="900" r="500" />
-              <circle cx="100" cy="900" r="600" />
-              <circle cx="100" cy="900" r="750" />
-              <circle cx="100" cy="900" r="900" />
-              <circle cx="100" cy="900" r="1050" />
+              <defs>
+                <pattern
+                  id="megamendung"
+                  width="200"
+                  height="100"
+                  patternUnits="userSpaceOnUse"
+                >
+                  <g fill="none" stroke="currentColor" strokeWidth="1.2">
+                    {/* Layer 1 (Outer Cloud) */}
+                    <path d="M 20,50 C 20,30 40,20 70,20 C 90,20 105,35 120,48 C 135,35 150,20 170,20 C 190,20 200,30 200,50 C 200,70 190,80 170,80 C 150,80 135,65 120,52 C 105,65 90,80 70,80 C 40,80 20,70 20,50 Z" />
+                    {/* Layer 2 (Middle Cloud) */}
+                    <path d="M 40,50 C 40,38 52,32 70,32 C 82,32 95,42 120,50 C 145,42 158,32 170,32 C 188,32 180,38 180,50 C 180,62 188,68 170,68 C 158,68 145,58 120,50 C 95,58 82,68 70,68 C 52,68 40,62 40,50 Z" />
+                    {/* Layer 3 (Inner Core) */}
+                    <path d="M 60,50 C 60,45 65,42 70,42 C 80,42 95,47 120,50 C 145,47 160,42 170,42 C 175,42 180,45 180,50 C 180,55 175,58 170,58 C 160,58 145,53 120,50 C 95,53 80,58 70,58 C 65,58 60,55 60,50 Z" />
+                  </g>
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#megamendung)" />
             </svg>
           </div>
 
