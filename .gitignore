@@ -27,3 +27,5 @@ check_db.js
 
 # Environment variables (JANGAN diupload ke GitHub!)
 .env
+
+.vercel
