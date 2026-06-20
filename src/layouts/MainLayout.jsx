@@ -11,7 +11,7 @@ const MainLayout = () => {
     <div key={user?.id} className="flex h-screen bg-[#12161F] overflow-hidden">
       <Sidebar />
       <main className="flex-1 w-full md:pl-[250px] md:pr-6 md:py-6 flex flex-col h-full">
-        <div className="flex-1 w-full bg-[#9DBFDB] md:rounded-[48px] overflow-y-auto relative">
+        <div className="flex-1 w-full bg-[#9DBFDB] md:rounded-[48px] relative overflow-hidden">
           {/* Background Topographic Waves B (Full Page) */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0">
             <svg
@@ -57,9 +57,11 @@ const MainLayout = () => {
             </svg>
           </div>
 
-          {/* Page Content */}
-          <div className="relative z-10">
-            <Outlet />
+          {/* Scroll Container (Contains Page Content) */}
+          <div className="absolute inset-0 overflow-y-auto z-10">
+            <div className="relative">
+              <Outlet />
+            </div>
           </div>
         </div>
       </main>
