@@ -16,42 +16,44 @@ const MainLayout = () => {
           <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0">
             <svg
               className="absolute inset-0 w-full h-full text-white"
-              opacity="0.1"
+              opacity="0.12"
             >
               <defs>
                 <pattern
-                  id="wiggly-pattern"
-                  width="300"
-                  height="300"
+                  id="dense-doodle"
+                  width="180"
+                  height="180"
                   patternUnits="userSpaceOnUse"
                 >
-                  <g fill="none" stroke="currentColor" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round">
-                    {/* Wiggly Path 1 (Top Left) */}
-                    <path d="M 30,30 C 50,10 90,20 80,60 C 70,100 30,120 40,160 C 50,180 80,180 100,160" />
-                    
-                    {/* Wiggly Path 2 (Top Right) */}
-                    <path d="M 180,30 C 220,10 250,40 230,80 C 210,120 270,140 280,180" />
-                    
-                    {/* Wiggly Path 3 (Center Bottom) */}
-                    <path d="M 120,220 C 150,200 180,240 160,280 C 140,310 90,280 80,250" />
-                    
-                    {/* Wiggly Path 4 (Bottom Right) */}
-                    <path d="M 220,280 C 260,300 290,270 270,230 C 250,190 220,200 210,170" />
-                    
-                    {/* Small segments & dots to balance the layout */}
-                    <path d="M 130,20 C 150,40 140,70 160,90" />
-                    <path d="M 20,250 C 40,280 70,270 70,240" />
+                  <g fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round">
+                    {/* Top Row */}
+                    <path d="M 15,15 L 35,35 L 15,55 L 35,75" /> {/* Zig zag left */}
+                    <circle cx="75" cy="30" r="14" /> {/* Circle top */}
+                    <path d="M 50,70 L 50,105" /> {/* Vertical line left-middle */}
+                    <path d="M 115,15 C 130,35 105,55 120,75" /> {/* Wave middle */}
+                    <path d="M 145,20 L 175,50" /> {/* Diagonal line top right */}
+                    <path d="M 170,80 L 170,40 L 145,40" /> {/* L-shape top right */}
 
-                    {/* Dots (Filled Circles) */}
-                    <circle cx="110" cy="110" r="10" fill="currentColor" stroke="none" />
-                    <circle cx="180" cy="150" r="10" fill="currentColor" stroke="none" />
-                    <circle cx="60" cy="200" r="10" fill="currentColor" stroke="none" />
-                    <circle cx="230" cy="220" r="10" fill="currentColor" stroke="none" />
-                    <circle cx="280" cy="110" r="10" fill="currentColor" stroke="none" />
+                    {/* Middle Row */}
+                    <path d="M 10,105 C 30,85 55,85 75,105" /> {/* Arch middle left */}
+                    <path d="M 10,80 L 30,80" /> {/* Horizontal line left */}
+                    <path d="M 90,50 L 100,70" /> {/* Short diagonal */}
+                    <path d="M 125,100 L 140,80 L 155,100 L 170,80" /> {/* Zig zag middle right */}
+                    <circle cx="160" cy="130" r="12" /> {/* Circle middle right */}
+                    <path d="M 85,95 C 95,110 100,115 115,110" /> {/* Small wave center */}
+                    <path d="M 135,120 L 135,150" /> {/* Vertical line right */}
+
+                    {/* Bottom Row */}
+                    <circle cx="30" cy="145" r="14" /> {/* Circle bottom left */}
+                    <path d="M 10,170 L 40,170" /> {/* Horizontal bottom left */}
+                    <path d="M 65,140 L 105,140" /> {/* Horizontal middle bottom */}
+                    <path d="M 95,170 L 120,170 L 120,145" /> {/* L-shape bottom middle */}
+                    <path d="M 145,170 L 175,140" /> {/* Diagonal bottom right */}
+                    <path d="M 175,105 L 175,145" /> {/* Vertical bottom right */}
                   </g>
                 </pattern>
               </defs>
-              <rect width="100%" height="100%" fill="url(#wiggly-pattern)" />
+              <rect width="100%" height="100%" fill="url(#dense-doodle)" />
             </svg>
           </div>
 
