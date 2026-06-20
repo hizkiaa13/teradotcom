@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import LandingPage from './pages/LandingPage';
 import InputTransaction from './pages/InputTransaction';
 import Report from './pages/Report';
 import Wallet from './pages/Wallet';
@@ -13,7 +14,7 @@ function App() {
     <FinanceProvider>
       <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         

@@ -62,9 +62,9 @@ const BottomNav = () => {
         <div className="absolute left-1/2 -translate-x-1/2 bottom-12">
           <NavLink 
             to="/input" 
-            className="w-[72px] h-[72px] bg-[#3B82F6] rounded-full flex items-center justify-center text-white shadow-[0_8px_25px_rgba(59,130,246,0.6)] border-[5px] border-[#12161F] hover:scale-105 active:scale-95 transition-all duration-300"
+            className="group w-[70px] h-[70px] bg-gradient-to-tr from-[#3b82f6] to-[#60a5fa] rounded-full flex items-center justify-center text-white shadow-[0_8px_20px_rgba(59,130,246,0.4)] border-4 border-[#12161F] hover:scale-110 hover:shadow-[0_10px_25px_rgba(59,130,246,0.6)] active:scale-95 transition-all duration-300 ease-out"
           >
-            <Plus size={36} strokeWidth={3} />
+            <Plus size={30} strokeWidth={2.5} className="transition-transform duration-300 ease-out group-hover:rotate-90" />
           </NavLink>
         </div>
 
